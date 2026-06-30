@@ -19,6 +19,7 @@ from openpyxl.styles import Font
 from deepface import DeepFace
 import os
 import tempfile
+import uuid
 from geopy.distance import geodesic
 
 # Create your views here.
@@ -327,6 +328,39 @@ class StudentLogoutView(APIView):
             }
             return Response(data, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+
+
+class AddStudentView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        user = request.user
+        email = request.data.get('email')
+        first_name = request.data.get('first_name')
+        last_name = request.data.get('last_name')
+        level = request.data.get('level')
+        department = request.data.get('department')
+        course_code = request.data.get('course_code')
+        matric_number = '2026/SC/' + str(uuid.uuid4().int)[:4]
+        User = get_user_model()
+        if User.objects.filter(email=email).exists():
+            data = {
+                'message': 'email already exists'
+            }
+            return Response(data, status=status.HTTP_302_FOUND)
+        auth_user = User.objects.create(email=email, first_name=first_name, last_name=last_name, matric_number=matric_number, level=level, department=department)
+        auth_user.set_password(email)
+        auth_user.save()
+        course = CourseSchedule.objects.filter(course_code=course_code).first()
+        course_card = StudentCourseCard.objects.create(student=user, first_name=first_name, last_name=last_name, email=email, course=course, attendance_score=0,
+                                                                           matric_number=matric_number, course_code=course.course_code, level=level,
+                                                                             department=department, lecturer=course.lecturer)
+        data = {
+            'message': 'Student added Successfully'
+        }
+        return Response(data, status=status.HTTP_201_CREATED)
+                        
 
 
 

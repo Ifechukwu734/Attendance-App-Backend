@@ -30,5 +30,7 @@ urlpatterns = [
 
     path('lecturer-logout/', views.LecturerLogoutView.as_view(), name='lecturer_logout'),
 
+    path('add-student/', views.AddStudentView.as_view(), name='add_student'),
+
     path('student-logout/', views.StudentLogoutView.as_view(), name='student_logout'),
 ]
