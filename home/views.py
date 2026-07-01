@@ -157,7 +157,7 @@ class FaceVerificationView(APIView):
 
                 print(weights)
                 print(os.path.exists(weights))
-                result = DeepFace.verify(img1_path=user.verification_face.path, img2_path=temp_path, model_name='Facenet512', enforce_detection=False)
+                result = DeepFace.verify(img1_path=user.verification_face.path, img2_path=temp_path, model_name='Facenet', enforce_detection=False)
                 if result['distance'] <= 0.4:
                     user.device_id = device_id
                     user.save()
