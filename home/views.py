@@ -12,6 +12,7 @@ from rest_framework.permissions import IsAuthenticated
 from courseManagement.models import CourseSchedule, AttendanceRecord, AttendanceSession, StudentCourseCard
 from courseManagement.serializers import CourseScheduleSerializer, AttendanceRecordSerializer, StudentCourseCardSerializer, AttendanceSessionSerializer
 from django.utils import timezone
+from .face_model import FACENET_MODEL
 from django.db.models import Q 
 from django.db import IntegrityError
 from openpyxl import Workbook
@@ -141,6 +142,21 @@ class FaceVerificationView(APIView):
                 # print(faces)
 
             try:
+                import os
+                from deepface.commons import folder_utils
+
+                print("HOME =", os.environ.get("HOME"))
+                print("DEEPFACE_HOME =", os.environ.get("DEEPFACE_HOME"))
+                print("DeepFace home =", folder_utils.get_deepface_home())
+
+                weights = os.path.join(
+                    folder_utils.get_deepface_home(),
+                    "weights",
+                    "facenet512_weights.h5"
+                )
+
+                print(weights)
+                print(os.path.exists(weights))
                 result = DeepFace.verify(img1_path=user.verification_face.path, img2_path=temp_path, model_name='Facenet512', enforce_detection=False)
                 if result['distance'] <= 0.4:
                     user.device_id = device_id
