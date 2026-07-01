@@ -52,10 +52,10 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         return self.email
     
-    # def save(self, *args, **kwargs):
-    #     if self.is_staff is not True:
-    #         self.matric_number = '2026/SC/' + str(uuid.uuid4().int)[:4]
-    #     super().save(*args, **kwargs)
+    def save(self, *args, **kwargs):
+        if self.is_staff is not True:
+            self.matric_number = '2026/SC/' + str(uuid.uuid4().int)[:4]
+        super().save(*args, **kwargs)
     
 
 
