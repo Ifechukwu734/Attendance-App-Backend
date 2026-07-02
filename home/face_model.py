@@ -1,5 +1,5 @@
-from deepface import DeepFace
+# from deepface import DeepFace
 
-print("Loading FaceNet model...")
-FACENET_MODEL = DeepFace.build_model("Facenet")
-print("FaceNet loaded.")
+# print("Loading FaceNet model...")
+# FACENET_MODEL = DeepFace.build_model("Facenet")
+# print("FaceNet loaded.")

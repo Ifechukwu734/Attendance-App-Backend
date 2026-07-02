@@ -12,7 +12,6 @@ from rest_framework.permissions import IsAuthenticated
 from courseManagement.models import CourseSchedule, AttendanceRecord, AttendanceSession, StudentCourseCard
 from courseManagement.serializers import CourseScheduleSerializer, AttendanceRecordSerializer, StudentCourseCardSerializer, AttendanceSessionSerializer
 from django.utils import timezone
-from .face_model import FACENET_MODEL
 from django.db.models import Q 
 from django.db import IntegrityError
 from openpyxl import Workbook
