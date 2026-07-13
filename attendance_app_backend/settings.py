@@ -29,7 +29,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-CSRF_TRUSTED_ORIGINS = ['https://attendance-app-backend-wasa.onrender.com']
+CSRF_TRUSTED_ORIGINS = ['https://attendance-app-backend-wasa.onrender.com', 'https://attendance-app-backend-production.up.railway.app']
 
 
 CORS_ALLOW_ALL_ORIGINS = True
