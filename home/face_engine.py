@@ -4,12 +4,12 @@
 # FACENET_MODEL = DeepFace.build_model("Facenet")
 # print("FaceNet loaded.")
 
-from insightface.app import FaceAnalysis
+# from insightface.app import FaceAnalysis
 
-app = FaceAnalysis(
-    name='buffalo_s',
-    providers=['CPUExecutionProvider'],
-    allowed_modules=["detection", "recognition"],
-)
+# app = FaceAnalysis(
+#     name='buffalo_s',
+#     providers=['CPUExecutionProvider'],
+#     allowed_modules=["detection", "recognition"],
+# )
 
-app.prepare(ctx_id=-1)
+# app.prepare(ctx_id=-1)
