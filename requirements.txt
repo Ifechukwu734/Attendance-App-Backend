@@ -69,7 +69,6 @@ packaging==26.2
 pandas==3.0.3
 pillow==12.2.0
 protobuf==7.35.0
-psycopg2==2.9.12
 psycopg2-binary==2.9.12
 py-ubjson==0.16.1
 pycparser==3.0
