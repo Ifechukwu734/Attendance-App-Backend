@@ -16,7 +16,8 @@ from django.db.models import Q
 from django.db import IntegrityError
 from openpyxl import Workbook
 from openpyxl.styles import Font
-from deepface import DeepFace
+# from deepface import DeepFace
+from .face_utils import verify_faces
 import os
 import tempfile
 import uuid
@@ -141,40 +142,41 @@ class FaceVerificationView(APIView):
                 # print(faces)
 
             try:
-                import os
-                from deepface.commons import folder_utils
+                # import os
+                # from deepface.commons import folder_utils
 
-                print("HOME =", os.environ.get("HOME"))
-                print("DEEPFACE_HOME =", os.environ.get("DEEPFACE_HOME"))
-                print("DeepFace home =", folder_utils.get_deepface_home())
+                # print("HOME =", os.environ.get("HOME"))
+                # print("DEEPFACE_HOME =", os.environ.get("DEEPFACE_HOME"))
+                # print("DeepFace home =", folder_utils.get_deepface_home())
 
-                weights = os.path.join(
-                    folder_utils.get_deepface_home(),
-                    "weights",
-                    "facenet512_weights.h5"
-                )
+                # weights = os.path.join(
+                #     folder_utils.get_deepface_home(),
+                #     "weights",
+                #     "facenet512_weights.h5"
+                # )
 
-                print(weights)
-                print(os.path.exists(weights))
-                result = DeepFace.verify(img1_path=user.verification_face.path, img2_path=temp_path, model_name='Facenet', enforce_detection=False)
-                if result['distance'] <= 0.4:
+                # print(weights)
+                # print(os.path.exists(weights))
+                # result = DeepFace.verify(img1_path=user.verification_face.path, img2_path=temp_path, model_name='Facenet', enforce_detection=False)
+                result = verify_faces(user.verification_face.path, temp_path)
+                if result['matched'] == True:
                     user.device_id = device_id
                     user.save()
-                    data = {
-                        'verified': result['verified'],
-                        'distance': result['distance'],
-                        'threshold': result['threshold']
-                    }
-                    print(data)
-                    return Response(data, status=status.HTTP_200_OK)
+                    # data = {
+                    #     'verified': result['verified'],
+                    #     'distance': result['distance'],
+                    #     'threshold': result['threshold']
+                    # }
+                    # print(data)
+                    return Response(result, status=status.HTTP_200_OK)
                 else:
-                    data = {
-                        'verified': result['verified'],
-                        'distance': result['distance'],
-                        'threshold': result['threshold']
-                    }
-                    print(data)
-                    return Response(data, status=status.HTTP_404_NOT_FOUND)
+                    # data = {
+                    #     'verified': result['verified'],
+                    #     'distance': result['distance'],
+                    #     'threshold': result['threshold']
+                    # }
+                    # print(data)
+                    return Response(result, status=status.HTTP_404_NOT_FOUND)
             finally:
                 if os.path.exists(temp_path):
                     os.remove(temp_path)
