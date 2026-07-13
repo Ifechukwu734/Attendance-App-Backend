@@ -26,6 +26,59 @@ from geopy.distance import geodesic
 # Create your views here.
 
 
+
+class StudentSignUpView(APIView):
+
+    def post(self, request):
+        email = request.data.get('email')
+        password = request.data.get('password')
+        first_name = request.data.get('first_name')
+        last_name = request.data.get('last_name')
+        department = request.data.get('department')
+        level = request.data.get('level')
+
+        User = get_user_model()
+
+        if User.objects.filter(email=email).exists():
+            data = {
+                'message': 'email already exists'
+            }
+            return Response(data, status=status.HTTP_302_FOUND)
+        user = User.objects.create(first_name=first_name, last_name=last_name, email=email, department=department, level=level)
+        user.set_password(password)
+        user.save()
+        data = {
+            'message': 'Student created successfully'
+        }
+        return Response(data, status=status.HTTP_200_OK)
+
+
+
+class LecturerSignUpView(APIView):
+
+    def post(self, request):
+        email = request.data.get('email')
+        password = request.data.get('password')
+        first_name = request.data.get('first_name')
+        last_name = request.data.get('last_name')
+        department = request.data.get('department')
+
+        User = get_user_model()
+
+        if User.objects.filter(email=email).exists():
+            data = {
+                'message': 'email already exists'
+            }
+            return Response(data, status=status.HTTP_302_FOUND)
+        user = User.objects.create(first_name=first_name, last_name=last_name, email=email, department=department, is_staff=True)
+        user.set_password(password)
+        user.save()
+        data = {
+            'message': 'Lecturer created successfully'
+        }
+        return Response(data, status=status.HTTP_200_OK)
+
+
 # Student Login
 class StudentLoginView(APIView):
 
