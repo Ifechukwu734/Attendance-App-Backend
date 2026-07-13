@@ -36,6 +36,7 @@ class StudentSignUpView(APIView):
         last_name = request.data.get('last_name')
         department = request.data.get('department')
         level = request.data.get('level')
+        matric_number = request.data.get('matric_number')
 
         User = get_user_model()
 
@@ -44,7 +45,7 @@ class StudentSignUpView(APIView):
                 'message': 'email already exists'
             }
             return Response(data, status=status.HTTP_302_FOUND)
-        user = User.objects.create(first_name=first_name, last_name=last_name, email=email, department=department, level=level)
+        user = User.objects.create(first_name=first_name, last_name=last_name, email=email, department=department, level=level, matric_number=matric_number)
         user.set_password(password)
         user.save()
         data = {
