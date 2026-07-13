@@ -8,7 +8,8 @@ from insightface.app import FaceAnalysis
 
 app = FaceAnalysis(
     name='buffalo_s',
-    providers=['CPUExecutionProvider']
+    providers=['CPUExecutionProvider'],
+    allowed_modules=["detection", "recognition"],
 )
 
 app.prepare(ctx_id=-1)
