@@ -39,7 +39,7 @@ hyperlink==21.0.0
 idna==3.18
 ImageIO==2.37.3
 Incremental==24.11.0
-insightface==1.0.1
+insightface==0.7.3
 itsdangerous==2.2.0
 Jinja2==3.1.6
 joblib==1.5.3
