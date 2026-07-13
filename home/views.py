@@ -17,7 +17,7 @@ from django.db import IntegrityError
 from openpyxl import Workbook
 from openpyxl.styles import Font
 # from deepface import DeepFace
-from .face_utils import verify_faces
+# from .face_utils import verify_faces
 import os
 import tempfile
 import uuid
@@ -158,7 +158,8 @@ class FaceVerificationView(APIView):
                 # print(weights)
                 # print(os.path.exists(weights))
                 # result = DeepFace.verify(img1_path=user.verification_face.path, img2_path=temp_path, model_name='Facenet', enforce_detection=False)
-                result = verify_faces(user.verification_face.path, temp_path)
+                # result = verify_faces(user.verification_face.path, temp_path)
+                result = {}
                 if result['matched'] == True:
                     user.device_id = device_id
                     user.save()
