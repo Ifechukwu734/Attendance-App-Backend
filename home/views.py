@@ -330,8 +330,8 @@ class StudentLogoutView(APIView):
     def post(self, request):
         try:
             user = request.user
-            user.device_id = ''
-            user.save()
+            # user.device_id = ''
+            # user.save()
             token = get_object_or_404(Token, user=user)
             token.delete()
             data = {
