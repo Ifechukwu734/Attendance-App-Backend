@@ -641,7 +641,8 @@ class ExportLiveAttendanceRecord(APIView):
             if session:
                 work_book = Workbook()
                 work_sheet = work_book.active
-                work_sheet.title = f'Students Attendance Record for {session.course_code} session {session.session_id} {timezone.now()}'
+                timestamp = timezone.now().strftime('%Y%m%d-%H%M%S')
+                work_sheet.title = f'{session.course_code}-{timestamp}'[:31]
                 
                 # headers
                 work_sheet.append([
@@ -681,7 +682,7 @@ class ExportLiveAttendanceRecord(APIView):
                     content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
                 )
                 response['Content-Disposition'] = (
-                    f'attachment; filename="{session.course_code}-{timezone.now()}"'
+                    f'attachment; filename="{session.course_code}-{timestamp}.xlsx"'
                 )
                 work_book.save(response)
                 return response
