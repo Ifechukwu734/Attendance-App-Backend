@@ -288,9 +288,15 @@ class DisplayStudentDetailsView(APIView):
                 'message': 'only students can access this page'
             }
             return Response(data, status=status.HTTP_401_UNAUTHORIZED)
+        profile_image_url = None
+        if user.profile_image:
+            profile_image_url = request.build_absolute_uri(
+                    user.profile_image.url
+                )
         serializer = ReturnCustomUserSerializer(user)
         data = {
-            'data': serializer.data
+            'data': serializer.data,
+            'profile_image': profile_image_url
         }
         return Response(data, status=status.HTTP_200_OK)
     
