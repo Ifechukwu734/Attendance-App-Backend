@@ -375,7 +375,7 @@ class DisplayLecturerDetailsView(APIView):
         user = request.user
         if user.is_staff:
             serializer = ReturnLecturerSerializer(user)
-            profile_image_url = 'https://api.dicebear.com/9.x/initials/svg?seed=User'
+            profile_image_url = 'https://cdn-icons-png.flaticon.com/512/149/149071.png'
             if user.profile_image:
                 profile_image_url = request.build_absolute_uri(
                         user.profile_image.url
@@ -517,7 +517,7 @@ class DisplayLecturerDetails(APIView):
             serializer = ReturnLecturerSerializer(user)
             number_of_courses = CourseSchedule.objects.filter(lecturer=user).count()
             courses = CourseSchedule.objects.filter(lecturer=user)
-            profile_image_url = 'https://api.dicebear.com/9.x/initials/svg?seed=User'
+            profile_image_url = 'https://cdn-icons-png.flaticon.com/512/149/149071.png'
             if user.profile_image:
                 profile_image_url = request.build_absolute_uri(
                             user.profile_image.url
