@@ -295,6 +295,70 @@ class DisplayStudentDetailsView(APIView):
         return Response(data, status=status.HTTP_200_OK)
     
 
+    # update student profile
+    def patch(self, request):
+        user = request.user
+        if not user.is_staff:
+            try:
+                profile_image = request.FILES.get('profile_image')
+                serializer = ReturnCustomUserSerializer(user, data=request.data, partial=True)
+                if serializer.is_valid():
+                    serializer.save()
+                    if profile_image:
+                        user.profile_image = profile_image
+                        user.save()
+                    
+                    data = {
+                        'message': 'profile updated'
+                    }
+                    return Response(data, status=status.HTTP_200_OK)
+                else:
+                    print(serializer.errors)
+                    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            except IntegrityError:
+                data = {
+                    'message': 'email already exists'
+                }
+                return Response(data, status=status.HTTP_302_FOUND)
+        else:
+            data = {
+                'message': 'only students are authorized to access this page'
+            }
+            return Response(data, status=status.HTTP_401_UNAUTHORIZED)
+    
+
+
+class ChangePasswordView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        user = request.user
+        old_password = request.data.get('current_password')
+        new_password = request.data.get('new_password')
+        if user.check_password(old_password):
+            if user.check_password(new_password):
+                data = {
+                    'success': False,
+                    'message': 'new password cannot be old password'
+                }
+                return Response(data, status=status.HTTP_406_NOT_ACCEPTABLE)
+            else:
+                user.set_password(new_password)
+                user.save()
+                data = {
+                    'success': True,
+                    'message': 'password set successfully'
+                }
+                return Response(data, status=status.HTTP_200_OK)
+        else:
+            data = {
+                'success': False,
+                'message': 'incorrect password'
+            }
+            return Response(data, status=status.HTTP_406_NOT_ACCEPTABLE)
+
+
 
 # Lecturer Profile Info
 class DisplayLecturerDetailsView(APIView):

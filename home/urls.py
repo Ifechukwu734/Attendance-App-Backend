@@ -10,6 +10,8 @@ urlpatterns = [
 
     path('lecturer-login/', views.LecturerLoginView.as_view(), name='lecturer_login'),
 
+    path('change-password/', views.ChangePasswordView.as_view(), name='change_password'),
+
     path('student-details/', views.DisplayStudentDetailsView.as_view(), name='student details'),
 
     path('upload-face/', views.UploadFaceVerificationImage.as_view(), name='upload_face'),

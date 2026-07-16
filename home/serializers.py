@@ -20,6 +20,12 @@ class FaceVerificationSerializer(serializers.ModelSerializer):
 
 class ReturnCustomUserSerializer(serializers.ModelSerializer):
     profile_image = serializers.ImageField(use_url=True, required=False)
+    email = serializers.EmailField(required=False)
+    first_name = serializers.CharField(required=False)
+    last_name = serializers.CharField(required=False)
+    department = serializers.CharField(required=False)
+    matric_number = serializers.CharField(required=False)
+    level = serializers.CharField(required=False)
     
     class Meta:
         model = CustomUser
